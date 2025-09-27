@@ -1,0 +1,1 @@
+<?php require_once __DIR__ . '/../app/includes/auth.php'; start_secure_session(); logout(); header('Location: index.php');
