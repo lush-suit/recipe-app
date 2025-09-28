@@ -1,7 +1,15 @@
 -- Core schema
-DROP TABLE IF EXISTS favourites; DROP TABLE IF EXISTS ratings; DROP TABLE IF EXISTS recipe_steps;
-DROP TABLE IF EXISTS recipe_ingredients; DROP TABLE IF EXISTS ingredients; DROP TABLE IF EXISTS recipe_categories; DROP TABLE IF EXISTS recipe_dietary_attributes; DROP TABLE IF EXISTS dietary_attributes;
-DROP TABLE IF EXISTS categories; DROP TABLE IF EXISTS recipes; DROP TABLE IF EXISTS users;
+DROP TABLE IF EXISTS favourites;
+DROP TABLE IF EXISTS ratings;
+DROP TABLE IF EXISTS recipe_steps;
+DROP TABLE IF EXISTS recipe_ingredients;
+DROP TABLE IF EXISTS ingredients;
+DROP TABLE IF EXISTS recipe_categories;
+DROP TABLE IF EXISTS recipe_dietary_attributes;
+DROP TABLE IF EXISTS dietary_attributes;
+DROP TABLE IF EXISTS categories;
+DROP TABLE IF EXISTS recipes;
+DROP TABLE IF EXISTS users;
 CREATE TABLE users (id INT AUTO_INCREMENT PRIMARY KEY, name VARCHAR(100) NOT NULL, email VARCHAR(255) NOT NULL UNIQUE, password_hash VARCHAR(255) NOT NULL, created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 CREATE TABLE recipes (id INT AUTO_INCREMENT PRIMARY KEY, title VARCHAR(200) NOT NULL, summary TEXT, difficulty ENUM('Easy','Medium','Hard') DEFAULT 'Easy', image_url VARCHAR(255) NULL, created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, updated_at TIMESTAMP NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 CREATE TABLE categories (id INT AUTO_INCREMENT PRIMARY KEY, name VARCHAR(100) NOT NULL UNIQUE, created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, updated_at TIMESTAMP NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -71,7 +79,7 @@ CREATE TABLE ingredient_allergens (
 
 CREATE TABLE recipe_ingredients (
     recipe_id INT NOT NULL,
-    ingredient_id INT NOT NULL, 
+    ingredient_id INT NOT NULL,
     quantity DECIMAL(8,3) NULL,
     unit VARCHAR(50) NULL,
     quantity_text VARCHAR(100) NULL,
@@ -124,7 +132,7 @@ CREATE INDEX idx_recipe_dietary_attr ON recipe_dietary_attributes(dietary_attrib
 CREATE INDEX idx_recipe_ingredients_ing_recipe ON recipe_ingredients(ingredient_id, recipe_id);
 
 -- Better keyword search
-FULLTEXT INDEX ft_recipes_title_summary ON recipes(title, summary);
+CREATE FULLTEXT INDEX ft_recipes_title_summary ON recipes(title, summary);
 
 -- Ingredient discovery helpers
 CREATE INDEX idx_ing_synonym ON ingredient_synonyms(synonym);

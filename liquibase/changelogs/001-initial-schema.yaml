@@ -1,0 +1,26 @@
+# liquibase/changelogs/001-initial-schema.yaml
+databaseChangeLog:
+  - changeSet:
+      id: 001-initial-schema
+      author: israel_osas
+      preConditions:
+        onFail: HALT
+        onError: HALT
+        # Guard: only run if core tables do NOT exist (prevents destructive apply on existing DBs)
+        - not:
+            - tableExists:
+                tableName: users
+        - not:
+            - tableExists:
+                tableName: recipes
+      changes:
+        # Safe on a fresh database. Your schema file contains DDL.
+        # IMPORTANT: Because schema.sql may include DROP statements, this changeSet halts if tables already exist.
+        - sqlFile:
+            path: db/schema.sql
+            relativeToChangelogFile: false
+            splitStatements: true
+            endDelimiter: ;
+            stripComments: true
+      # No automatic rollback for full schema creation.
+      # You can recreate a dev DB by dropping it and re-running update on an empty DB.

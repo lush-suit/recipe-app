@@ -1,1 +1,12 @@
 databaseChangeLog:
+  # Initial schema (runs only if DB is empty; see preconditions inside)
+  - include:
+      file: liquibase/changelogs/001-initial-schema.yaml
+
+  # Optional demo data (seed). Apply with context "seed".
+  - include:
+      file: liquibase/changelogs/002-initial-seed.yaml
+
+  # Your next migration(s). Copy/rename 003 file per change as needed.
+  - include:
+      file: liquibase/changelogs/003-template-next-change.yaml
