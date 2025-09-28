@@ -1,0 +1,39 @@
+# liquibase/changelogs/003-template-next-change.yaml
+databaseChangeLog:
+  - changeSet:
+      id: 003-descriptive-name
+      author:
+      # Optional: limit environments (e.g., "dev,test,prod")
+      # context: dev,test,prod
+      preConditions:
+        onFail: HALT
+        onError: HALT
+        # Example guard: only add column if it doesn't exist
+        # - not:
+        #     - columnExists:
+        #         tableName: your_table
+        #         columnName: your_new_column
+      changes:
+      # Example: add a new nullable column
+      # - addColumn:
+      #     tableName: your_table
+      #     columns:
+      #       - column:
+      #           name: your_new_column
+      #           type: varchar(255)
+      #
+      # Example: create an index
+      # - createIndex:
+      #     tableName: your_table
+      #     indexName: idx_your_table_your_new_column
+      #     columns:
+      #       - column:
+      #           name: your_new_column
+      rollback:
+      # Undo the above (if used)
+      # - dropIndex:
+      #     tableName: your_table
+      #     indexName: idx_your_table_your_new_column
+      # - dropColumn:
+      #     tableName: your_table
+      #     columnName: your_new_column

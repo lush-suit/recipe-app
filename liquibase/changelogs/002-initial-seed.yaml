@@ -1,0 +1,45 @@
+# liquibase/changelogs/002-initial-seed.yaml
+databaseChangeLog:
+  - changeSet:
+      id: 002-initial-seed
+      author: israel_osas
+      context: seed
+      preConditions:
+        onFail: HALT
+        onError: HALT
+          # Ensure schema exists before loading seed data
+          - tableExists:
+              tableName: users
+          - tableExists:
+              tableName: recipes
+      changes:
+        - sqlFile:
+            path: db/seed_all.sql
+            relativeToChangelogFile: false
+            splitStatements: true
+            endDelimiter: ;
+            stripComments: true
+      rollback:
+        # Caution: Dev/test only. Adjust for production use.
+        - sql:
+            sql: |
+              SET FOREIGN_KEY_CHECKS=0;
+              TRUNCATE TABLE favourites;
+              TRUNCATE TABLE ratings;
+              TRUNCATE TABLE recipe_steps;
+              TRUNCATE TABLE recipe_ingredients;
+              TRUNCATE TABLE ingredient_allergens;
+              TRUNCATE TABLE ingredient_synonyms;
+              TRUNCATE TABLE ingredient_category_map;
+              TRUNCATE TABLE ingredient_categories;
+              TRUNCATE TABLE nutrition;
+              TRUNCATE TABLE recipe_tags;
+              TRUNCATE TABLE tags;
+              TRUNCATE TABLE recipe_dietary_attributes;
+              TRUNCATE TABLE dietary_attributes;
+              TRUNCATE TABLE recipe_categories;
+              TRUNCATE TABLE categories;
+              TRUNCATE TABLE ingredients;
+              TRUNCATE TABLE recipes;
+              DELETE FROM users;
+              SET FOREIGN_KEY_CHECKS=1;
